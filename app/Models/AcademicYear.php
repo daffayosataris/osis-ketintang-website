@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class AcademicYear extends Model
 {
     use HasFactory;
+
+    // Menentukan kolom mana saja yang boleh diisi ke database
+    protected $fillable = [
+        'name', 
+        'is_active'
+    ];
 }
