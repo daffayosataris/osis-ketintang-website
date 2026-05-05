@@ -18,10 +18,16 @@
                     <x-nav-link :href="route('document-categories.index')" :active="request()->routeIs('document-categories.*')">
                         {{ __('Kategori Dokumen') }}
                     </x-nav-link>
-                    <!-- LINK MANAJEMEN ARSIP DOKUMEN -->
                     <x-nav-link :href="route('documents.index')" :active="request()->routeIs('documents.*')">
                         {{ __('Manajemen Arsip') }}
                     </x-nav-link>
+                    
+                    <!-- KODE BARU: Tombol untuk melompat ke halaman depan website -->
+                    <div class="hidden sm:flex sm:items-center sm:ms-6">
+                        <a href="{{ route('home') }}" target="_blank" class="inline-flex items-center px-4 py-2 bg-maroon-700 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-maroon-800 focus:bg-maroon-800 active:bg-maroon-900 focus:outline-none focus:ring-2 focus:ring-maroon-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                            Lihat Website ↗
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -64,6 +70,8 @@
             <x-responsive-nav-link :href="route('academic-years.index')" :active="request()->routeIs('academic-years.*')">{{ __('Tahun Kepengurusan') }}</x-responsive-nav-link>
             <x-responsive-nav-link :href="route('document-categories.index')" :active="request()->routeIs('document-categories.*')">{{ __('Kategori Dokumen') }}</x-responsive-nav-link>
             <x-responsive-nav-link :href="route('documents.index')" :active="request()->routeIs('documents.*')">{{ __('Manajemen Arsip') }}</x-responsive-nav-link>
+            <!-- Tampilan Mobile -->
+            <x-responsive-nav-link :href="route('home')" target="_blank" class="text-maroon-700 font-bold">Lihat Website ↗</x-responsive-nav-link>
         </div>
     </div>
 </nav>
