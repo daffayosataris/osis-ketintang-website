@@ -7,7 +7,8 @@ use App\Models\Hero;
 use App\Models\Value;
 use App\Models\Message;
 use App\Models\Anggota;
-use App\Models\Sekbid; // KODE BARU: Memanggil model Sekbid
+use App\Models\Sekbid;
+use App\Models\Event; // KODE BARU: Memanggil model Event
 
 class HomeController extends Controller
 {
@@ -23,10 +24,13 @@ class HomeController extends Controller
         $mpk = Anggota::where('category', 'MPK')->get();
         $pembina = Anggota::where('category', 'Pembina')->get();
 
-        // KODE BARU: Mengambil data Sekbid (diurutkan berdasarkan nama)
+        // Mengambil data Sekbid 
         $sekbids = Sekbid::orderBy('name', 'asc')->get();
+        
+        // KODE BARU: Mengambil maksimal 3 event terbaru
+        $events = Event::latest()->take(3)->get();
 
         // Mengirimkan semua data ke tampilan beranda
-        return view('home', compact('hero', 'value', 'message', 'intiOsis', 'mpk', 'pembina', 'sekbids'));
+        return view('home', compact('hero', 'value', 'message', 'intiOsis', 'mpk', 'pembina', 'sekbids', 'events'));
     }
 }

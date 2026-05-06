@@ -66,28 +66,23 @@
         <svg class="relative z-10 w-full h-16 md:h-24 fill-current text-white mt-12 md:mt-16 drop-shadow-xl" viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,0 C480,100 960,100 1440,0 L1440,100 L0,100 Z"></path></svg>
     </div>
 
-    <!-- SEKBID SECTION (Tampilan Poster Dinamis) -->
+    <!-- SEKBID SECTION -->
     <div class="py-20 bg-white" id="sekbid">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-16 uppercase tracking-tight">Bidang-Bidang</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                <!-- Looping Data Sekbid dari Database -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
                 @forelse ($sekbids as $sekbid)
-                    <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-2xl border-t-8 border-maroon-700 transform hover:scale-105 transition duration-300 flex flex-col">
-                        <!-- Bagian Poster Gambar -->
+                    <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-2xl flex flex-col h-full transform hover:-translate-y-2 transition duration-300">
                         @if($sekbid->image_path)
-                            <div class="w-full bg-gray-200 flex-shrink-0">
-                                <!-- Gunakan w-full h-auto agar proporsi poster vertikal Instagram tidak terpotong -->
-                                <img src="{{ asset('storage/' . $sekbid->image_path) }}" alt="{{ $sekbid->name }}" class="w-full h-auto object-cover">
+                            <div class="w-full h-[450px] xl:h-[500px] bg-gray-200 flex-shrink-0 relative">
+                                <img src="{{ asset('storage/' . $sekbid->image_path) }}" alt="{{ $sekbid->name }}" class="absolute inset-0 w-full h-full object-cover object-center">
                             </div>
                         @else
-                            <div class="h-64 bg-gray-200 flex items-center justify-center text-2xl font-extrabold text-gray-400 border-b">TIDAK ADA POSTER</div>
+                            <div class="w-full h-[450px] xl:h-[500px] bg-gray-200 flex items-center justify-center text-2xl font-extrabold text-gray-400 border-b">TIDAK ADA POSTER</div>
                         @endif
-                        
-                        <!-- Bagian Teks Deskripsi -->
-                        <div class="p-8 bg-maroon-900 text-left flex-grow">
-                            <h3 class="text-2xl font-bold text-white mb-3 uppercase tracking-wide">{{ $sekbid->name }}</h3>
-                            <p class="text-maroon-200 text-sm md:text-base font-medium leading-relaxed">{{ $sekbid->description }}</p>
+                        <div class="p-6 md:p-8 bg-maroon-900 text-left flex-grow flex flex-col justify-start border-t-4 border-maroon-600">
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2 uppercase tracking-wide">{{ $sekbid->name }}</h3>
+                            <p class="text-maroon-100 text-sm md:text-base font-medium leading-relaxed">{{ $sekbid->description }}</p>
                         </div>
                     </div>
                 @empty
@@ -97,10 +92,10 @@
         </div>
     </div>
 
-    <!-- MPK SECTION -->
+    <!-- KONDISI SAKLAR MPK -->
+    @if($hero->is_mpk_visible)
     <div class="py-24 relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900" id="mpk">
         <div class="absolute top-10 right-10 w-96 h-96 bg-blue-500/20 rounded-full blur-[120px] pointer-events-none"></div>
-
         <div class="relative z-10 text-center mb-16 px-4">
             <h2 class="text-5xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-lg">MPK</h2>
             <p class="text-blue-300 mt-4 text-lg md:text-xl font-bold tracking-widest uppercase">Majelis Perwakilan Kelas</p>
@@ -125,6 +120,7 @@
             </div>
         </div>
     </div>
+    @endif
 
     <!-- STRUKTUR KEPENGURUSAN -->
     <div class="py-24 bg-gray-50" id="struktur">
@@ -132,15 +128,20 @@
             <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 uppercase tracking-tight">Struktur Kepengurusan</h2>
             <p class="text-maroon-700 font-extrabold text-xl mb-12 tracking-widest uppercase">Periode 2024-2025</p>
             <div class="bg-white rounded-2xl p-4 md:p-8 border border-gray-200 shadow-2xl">
-                <div class="h-[400px] md:h-[600px] bg-gray-100 flex flex-col justify-center items-center rounded-xl border-4 border-dashed border-gray-300">
-                    <svg class="w-24 h-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                    <p class="text-gray-400 font-bold text-xl md:text-2xl uppercase tracking-widest">Gambar Struktur Organisasi</p>
-                </div>
+                @if(isset($hero->structure_image_path) && $hero->structure_image_path)
+                    <img src="{{ asset('storage/' . $hero->structure_image_path) }}" alt="Bagan Struktur Organisasi" class="w-full h-auto object-contain rounded-xl shadow-sm">
+                @else
+                    <div class="h-[400px] md:h-[600px] bg-gray-100 flex flex-col justify-center items-center rounded-xl border-4 border-dashed border-gray-300">
+                        <svg class="w-24 h-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <p class="text-gray-400 font-bold text-xl md:text-2xl uppercase tracking-widest">Gambar Struktur Organisasi</p>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
 
-    <!-- PEMBINA OSIS SECTION -->
+    <!-- KONDISI SAKLAR PEMBINA OSIS -->
+    @if($hero->is_pembina_visible)
     <div class="py-20 bg-maroon-50 border-t" id="pembina">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl mb-12 uppercase">Pembina OSIS</h2>
@@ -157,6 +158,30 @@
                     </div>
                 @empty
                     <div class="text-gray-500 py-4">Data Pembina belum ditambahkan.</div>
+                @endforelse
+            </div>
+        </div>
+    </div>
+    @endif
+
+    <!-- EVENT TERKINI -->
+    <div class="py-24 bg-white" id="event">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-extrabold text-center text-gray-900 mb-16 uppercase tracking-tight">Event OSIS Terkini</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                @forelse ($events as $event)
+                    <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-lg border border-gray-100 flex flex-col h-full transform hover:-translate-y-2 transition duration-300">
+                        <div class="h-56 bg-gray-200 flex-shrink-0">
+                            <img src="{{ asset('storage/' . $event->image_path) }}" alt="{{ $event->title }}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-8 flex-grow flex flex-col">
+                            <p class="text-sm text-maroon-600 font-bold mb-3 uppercase tracking-wider">{{ \Carbon\Carbon::parse($event->event_date)->translatedFormat('d F Y') }}</p>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3 line-clamp-2">{{ $event->title }}</h3>
+                            <p class="text-gray-600 text-base flex-grow line-clamp-3 leading-relaxed">{{ $event->description }}</p>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-span-full text-center text-gray-500 py-12 text-lg">Belum ada event yang dipublikasikan oleh Admin.</div>
                 @endforelse
             </div>
         </div>
