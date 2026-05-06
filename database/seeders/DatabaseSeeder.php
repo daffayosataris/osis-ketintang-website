@@ -12,9 +12,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Memanggil UserSeeder untuk dijalankan
+        // Menjalankan Seeder secara berurutan
         $this->call([
             UserSeeder::class,
+            CmsSeeder::class, // Menambahkan CmsSeeder yang baru kita buat
         ]);
     }
 }

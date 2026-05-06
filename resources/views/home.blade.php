@@ -2,202 +2,170 @@
 
 @section('content')
     <!-- HERO SECTION -->
-    <div class="relative bg-maroon-50 overflow-hidden">
+    <div class="relative bg-gradient-to-b from-maroon-50 to-white overflow-hidden">
         <div class="max-w-7xl mx-auto">
-            <div class="relative z-10 pb-8 bg-maroon-50 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32 pt-20">
+            <div class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32 pt-20">
                 <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
                     <div class="sm:text-center lg:text-left">
-                        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                            <span class="block xl:inline">Welcome to</span>
-                            <span class="block text-maroon-700">OSIS SMK KETINTANG</span>
+                        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl uppercase">
+                            <span class="block text-maroon-800 drop-shadow-md">{{ $hero->welcome_text ?? 'Welcome to OSIS SMK KETINTANG' }}</span>
                         </h1>
-                        <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                            Wadah inspirasi, kreativitas, dan aspirasi siswa-siswi SMK Ketintang Surabaya. Bersama membangun generasi berprestasi dan berakhlak mulia.
+                        <p class="mt-3 text-base text-gray-600 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0 font-medium">
+                            {{ $hero->subtitle ?? 'Wadah inspirasi, kreativitas, dan aspirasi siswa-siswi.' }}
                         </p>
+                        
+                        @if(isset($hero->button_text) && $hero->button_text)
+                        <div class="mt-8 sm:flex sm:justify-center lg:justify-start">
+                            <a href="#inti-osis" class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-bold rounded-md text-white bg-maroon-700 hover:bg-maroon-800 shadow-xl transform hover:-translate-y-1 transition duration-200">
+                                {{ $hero->button_text }}
+                            </a>
+                        </div>
+                        @endif
                     </div>
                 </main>
             </div>
         </div>
-        <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 bg-maroon-100 flex justify-center items-center">
-            <div class="text-maroon-300 font-bold text-9xl opacity-20">OSIS</div>
+        <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 bg-maroon-100 flex justify-center items-center overflow-hidden shadow-inner">
+            @if(isset($hero->image_path) && $hero->image_path)
+                <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="{{ asset('storage/' . $hero->image_path) }}" alt="Hero">
+            @else
+                <div class="text-maroon-300 font-bold text-9xl opacity-20">OSIS</div>
+            @endif
         </div>
     </div>
 
-    <!-- INTI OSIS SECTION -->
-    <div class="py-16 bg-white" id="inti-osis">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-base text-maroon-600 font-semibold tracking-wide uppercase">Generasi Pengurus 2024-2025</h2>
-                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">INTI OSIS</p>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Ketua -->
-                <div class="bg-gray-50 rounded-lg shadow-sm p-6 text-center hover:shadow-md transition">
-                    <img class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-maroon-200 object-cover" src="https://ui-avatars.com/api/?name=Ketua+OSIS&background=881b1b&color=fff&size=128" alt="Ketua OSIS">
-                    <h3 class="text-lg font-bold text-gray-900">Nama Ketua</h3>
-                    <p class="text-sm text-maroon-600 font-semibold">Ketua OSIS</p>
-                </div>
-                <!-- Wakil -->
-                <div class="bg-gray-50 rounded-lg shadow-sm p-6 text-center hover:shadow-md transition">
-                    <img class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-maroon-200 object-cover" src="https://ui-avatars.com/api/?name=Wakil+Ketua&background=881b1b&color=fff&size=128" alt="Wakil">
-                    <h3 class="text-lg font-bold text-gray-900">Nama Wakil</h3>
-                    <p class="text-sm text-maroon-600 font-semibold">Wakil Ketua</p>
-                </div>
-                <!-- Sekretaris -->
-                <div class="bg-gray-50 rounded-lg shadow-sm p-6 text-center hover:shadow-md transition">
-                    <img class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-maroon-200 object-cover" src="https://ui-avatars.com/api/?name=Sekretaris&background=881b1b&color=fff&size=128" alt="Sekretaris">
-                    <h3 class="text-lg font-bold text-gray-900">Nama Sekretaris</h3>
-                    <p class="text-sm text-maroon-600 font-semibold">Sekretaris</p>
-                </div>
-                <!-- Bendahara -->
-                <div class="bg-gray-50 rounded-lg shadow-sm p-6 text-center hover:shadow-md transition">
-                    <img class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-maroon-200 object-cover" src="https://ui-avatars.com/api/?name=Bendahara&background=881b1b&color=fff&size=128" alt="Bendahara">
-                    <h3 class="text-lg font-bold text-gray-900">Nama Bendahara</h3>
-                    <p class="text-sm text-maroon-600 font-semibold">Bendahara</p>
-                </div>
+    <!-- INTI OSIS SECTION (Desain Premium Gradient) -->
+    <div class="pt-24 pb-0 relative overflow-hidden bg-gradient-to-br from-gray-900 via-maroon-900 to-black" id="inti-osis"> 
+        
+        <!-- Ornamen Efek Bias Cahaya (Ambient Glow) -->
+        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-maroon-500/40 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="absolute bottom-[10%] right-[-10%] w-96 h-96 bg-red-500/20 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="relative z-10 text-center mb-16 px-4">
+            <h2 class="text-lg md:text-xl text-maroon-300 font-bold tracking-widest uppercase mb-3">Tahun Kepengurusan 2024-2025</h2>
+            <p class="text-5xl md:text-7xl font-extrabold tracking-tight text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">INTI OSIS</p>
+        </div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center items-end gap-6 md:gap-10">
+                @forelse ($intiOsis as $anggota)
+                    <!-- Box Poster Raksasa -->
+                    <div class="w-56 md:w-72 relative group overflow-hidden rounded-t-3xl shadow-[0_20px_50px_rgba(0,0,0,0.7)] border-b-8 border-maroon-500 transform hover:-translate-y-4 transition duration-500 ring-1 ring-white/10">
+                        @if($anggota->image_path)
+                            <img class="w-full h-[350px] md:h-[450px] object-cover object-top" src="{{ asset('storage/' . $anggota->image_path) }}" alt="{{ $anggota->name }}">
+                        @else
+                            <img class="w-full h-[350px] md:h-[450px] object-cover object-top" src="https://ui-avatars.com/api/?name={{ urlencode($anggota->name) }}&background=881b1b&color=fff&size=512" alt="{{ $anggota->name }}">
+                        @endif
+                        
+                        <!-- Overlay Hitam Transparan untuk Teks -->
+                        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/90 to-transparent pt-20 pb-8 px-4 text-center">
+                            <h3 class="text-xl md:text-2xl font-black text-white leading-tight mb-1 drop-shadow-md">{{ $anggota->name }}</h3>
+                            <p class="text-sm md:text-base text-maroon-400 font-bold uppercase tracking-widest">{{ $anggota->jabatan }}</p>
+                        </div>
+                    </div>
+                @empty
+                    <div class="w-full text-center text-maroon-200 py-16 text-lg">Data Pengurus Inti belum ditambahkan di Admin.</div>
+                @endforelse
             </div>
         </div>
+        <!-- Gelombang Transisi Putih ke Section Berikutnya -->
+        <svg class="relative z-10 w-full h-16 md:h-24 fill-current text-white mt-12 md:mt-16 drop-shadow-xl" viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,0 C480,100 960,100 1440,0 L1440,100 L0,100 Z"></path></svg>
     </div>
 
     <!-- SEKBID SECTION -->
-    <div class="py-16 bg-maroon-900 text-white" id="sekbid">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl leading-8 font-extrabold tracking-tight sm:text-4xl">SEKSI BIDANG (SEKBID)</h2>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-maroon-800 rounded-lg p-6 border border-maroon-700 hover:bg-maroon-700 transition">
-                    <div class="text-xl font-bold mb-2">Bidang 1</div>
-                    <p class="text-sm text-maroon-100">Keimanan dan Ketaqwaan Terhadap Tuhan YME.</p>
+    <div class="py-20 bg-white" id="sekbid">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-16 uppercase tracking-tight">Bidang-Bidang</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Data Statis Sekbid (Karena Jarang Berubah) -->
+                <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-xl border-t-8 border-maroon-700 transform hover:scale-105 transition duration-300">
+                    <div class="h-48 bg-gray-200 flex items-center justify-center text-2xl font-extrabold text-gray-400 border-b">FOTO BIDANG 1</div>
+                    <div class="p-8 bg-maroon-900 text-left h-full">
+                        <h3 class="text-2xl font-bold text-white mb-3 uppercase tracking-wide">Bidang 1</h3>
+                        <p class="text-maroon-200 text-sm md:text-base font-medium leading-relaxed">Keimanan dan Ketaqwaan Terhadap Tuhan Yang Maha Esa.</p>
+                    </div>
                 </div>
-                <div class="bg-maroon-800 rounded-lg p-6 border border-maroon-700 hover:bg-maroon-700 transition">
-                    <div class="text-xl font-bold mb-2">Bidang 2</div>
-                    <p class="text-sm text-maroon-100">Budi Pekerti Luhur dan Akhlak Mulia.</p>
+                <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-xl border-t-8 border-maroon-700 transform hover:scale-105 transition duration-300">
+                    <div class="h-48 bg-gray-200 flex items-center justify-center text-2xl font-extrabold text-gray-400 border-b">FOTO BIDANG 2</div>
+                    <div class="p-8 bg-maroon-900 text-left h-full">
+                        <h3 class="text-2xl font-bold text-white mb-3 uppercase tracking-wide">Bidang 2</h3>
+                        <p class="text-maroon-200 text-sm md:text-base font-medium leading-relaxed">Budi Pekerti Luhur dan Akhlak Mulia.</p>
+                    </div>
                 </div>
-                <div class="bg-maroon-800 rounded-lg p-6 border border-maroon-700 hover:bg-maroon-700 transition">
-                    <div class="text-xl font-bold mb-2">Bidang 3</div>
-                    <p class="text-sm text-maroon-100">Kepribadian Unggul dan Wawasan Kebangsaan.</p>
-                </div>
-                <div class="bg-maroon-800 rounded-lg p-6 border border-maroon-700 hover:bg-maroon-700 transition">
-                    <div class="text-xl font-bold mb-2">Bidang 4</div>
-                    <p class="text-sm text-maroon-100">Prestasi Akademik, Seni, dan Olahraga.</p>
-                </div>
-                <div class="bg-maroon-800 rounded-lg p-6 border border-maroon-700 hover:bg-maroon-700 transition">
-                    <div class="text-xl font-bold mb-2">Bidang 5</div>
-                    <p class="text-sm text-maroon-100">Demokrasi, HAM, dan Lingkungan Hidup.</p>
-                </div>
-                <div class="bg-maroon-800 rounded-lg p-6 border border-maroon-700 hover:bg-maroon-700 transition">
-                    <div class="text-xl font-bold mb-2">Bidang 6</div>
-                    <p class="text-sm text-maroon-100">Kreativitas, Keterampilan, dan Kewirausahaan.</p>
+                <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-xl border-t-8 border-maroon-700 transform hover:scale-105 transition duration-300">
+                    <div class="h-48 bg-gray-200 flex items-center justify-center text-2xl font-extrabold text-gray-400 border-b">FOTO BIDANG 3</div>
+                    <div class="p-8 bg-maroon-900 text-left h-full">
+                        <h3 class="text-2xl font-bold text-white mb-3 uppercase tracking-wide">Bidang 3</h3>
+                        <p class="text-maroon-200 text-sm md:text-base font-medium leading-relaxed">Kepribadian Unggul dan Wawasan Kebangsaan.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MPK SECTION -->
-    <div class="py-16 bg-gray-50" id="mpk">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl mb-8">Majelis Perwakilan Kelas (MPK)</h2>
-            <div class="flex justify-center gap-8 flex-wrap">
-                <div class="bg-white rounded-lg shadow p-6 w-64">
-                    <img class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-gray-200 object-cover" src="https://ui-avatars.com/api/?name=Ketua+MPK&background=cbd5e1&color=333" alt="Ketua MPK">
-                    <h3 class="font-bold text-gray-900">Nama Ketua MPK</h3>
-                    <p class="text-sm text-gray-500">Ketua MPK</p>
-                </div>
-                <div class="bg-white rounded-lg shadow p-6 w-64">
-                    <img class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-gray-200 object-cover" src="https://ui-avatars.com/api/?name=Wakil+MPK&background=cbd5e1&color=333" alt="Wakil MPK">
-                    <h3 class="font-bold text-gray-900">Nama Wakil MPK</h3>
-                    <p class="text-sm text-gray-500">Wakil MPK</p>
-                </div>
+    <!-- MPK SECTION (Gradient Biru Gelap) -->
+    <div class="py-24 relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900" id="mpk">
+        <!-- Glow Biru -->
+        <div class="absolute top-10 right-10 w-96 h-96 bg-blue-500/20 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="relative z-10 text-center mb-16 px-4">
+            <h2 class="text-5xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-lg">MPK</h2>
+            <p class="text-blue-300 mt-4 text-lg md:text-xl font-bold tracking-widest uppercase">Majelis Perwakilan Kelas</p>
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center items-end gap-6 md:gap-10">
+                @forelse ($mpk as $anggota)
+                    <div class="w-56 md:w-72 relative group overflow-hidden rounded-t-3xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] border-b-8 border-blue-500 transform hover:-translate-y-4 transition duration-500 ring-1 ring-white/10">
+                        @if($anggota->image_path)
+                            <img class="w-full h-[350px] md:h-[450px] object-cover object-top" src="{{ asset('storage/' . $anggota->image_path) }}" alt="{{ $anggota->name }}">
+                        @else
+                            <img class="w-full h-[350px] md:h-[450px] object-cover object-top" src="https://ui-avatars.com/api/?name={{ urlencode($anggota->name) }}&background=3182ce&color=fff&size=512" alt="{{ $anggota->name }}">
+                        @endif
+                        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/90 to-transparent pt-20 pb-8 px-4 text-center">
+                            <h3 class="text-xl md:text-2xl font-black text-white leading-tight mb-1">{{ $anggota->name }}</h3>
+                            <p class="text-blue-400 font-bold uppercase tracking-widest">{{ $anggota->jabatan }}</p>
+                        </div>
+                    </div>
+                @empty
+                    <div class="w-full text-center text-gray-400 py-16 text-lg">Data MPK belum ditambahkan.</div>
+                @endforelse
             </div>
         </div>
     </div>
 
     <!-- STRUKTUR KEPENGURUSAN -->
-    <div class="py-16 bg-white" id="struktur">
+    <div class="py-24 bg-gray-50" id="struktur">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 uppercase tracking-tight">Struktur Kepengurusan</h2>
+            <p class="text-maroon-700 font-extrabold text-xl mb-12 tracking-widest uppercase">Periode 2024-2025</p>
+            <div class="bg-white rounded-2xl p-4 md:p-8 border border-gray-200 shadow-2xl">
+                <!-- Nantinya Admin akan upload gambar bagan di sini -->
+                <div class="h-[400px] md:h-[600px] bg-gray-100 flex flex-col justify-center items-center rounded-xl border-4 border-dashed border-gray-300">
+                    <svg class="w-24 h-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <p class="text-gray-400 font-bold text-xl md:text-2xl uppercase tracking-widest">Gambar Struktur Organisasi</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PEMBINA OSIS SECTION -->
+    <div class="py-20 bg-maroon-50 border-t" id="pembina">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl mb-8">Struktur Kepengurusan</h2>
-            <div class="bg-gray-100 rounded-xl p-8 border-2 border-dashed border-gray-300 flex items-center justify-center min-h-[400px]">
-                <p class="text-gray-500 font-semibold">-- Placeholder Gambar Struktur Organisasi (Menunggu dari Klien) --</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- PEMBINA OSIS -->
-    <div class="py-16 bg-maroon-50" id="pembina">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl mb-8">Pembina OSIS</h2>
-            <div class="flex justify-center">
-                <div class="bg-white rounded-lg shadow-md p-8 w-80 hover:shadow-lg transition">
-                    <img class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-maroon-200 object-cover" src="https://ui-avatars.com/api/?name=Pembina&background=881b1b&color=fff" alt="Pembina">
-                    <h3 class="text-xl font-bold text-gray-900">Bpk/Ibu Pembina, S.Pd.</h3>
-                    <p class="text-maroon-600 font-medium">Koordinator Pembina OSIS</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- TESTIMONI ALUMNI -->
-    <div class="py-16 bg-white" id="testimoni">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-12">Testimoni Alumni Pengurus</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-gray-50 p-6 rounded-xl shadow-sm border border-gray-100">
-                    <p class="text-gray-600 italic mb-4">"Berorganisasi di OSIS mengajarkan saya banyak hal tentang *leadership* dan manajemen waktu yang sangat berguna di dunia kerja."</p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-maroon-200 rounded-full flex items-center justify-center text-maroon-800 font-bold">AL</div>
-                        <div>
-                            <h4 class="font-bold text-gray-900">Alumni 1</h4>
-                            <p class="text-sm text-gray-500">Ketua OSIS 2021-2022</p>
-                        </div>
+            <h2 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl mb-12 uppercase">Pembina OSIS</h2>
+            <div class="flex justify-center gap-8 flex-wrap">
+                @forelse ($pembina as $anggota)
+                    <div class="bg-white rounded-2xl shadow-xl p-10 w-80 md:w-96 transform hover:-translate-y-2 transition duration-300 border-b-4 border-maroon-700">
+                        @if($anggota->image_path)
+                            <img class="w-40 h-40 rounded-full mx-auto mb-6 border-4 border-maroon-200 object-cover shadow-lg" src="{{ asset('storage/' . $anggota->image_path) }}" alt="{{ $anggota->name }}">
+                        @else
+                            <img class="w-40 h-40 rounded-full mx-auto mb-6 border-4 border-maroon-200 object-cover shadow-lg" src="https://ui-avatars.com/api/?name={{ urlencode($anggota->name) }}&background=881b1b&color=fff&size=256" alt="{{ $anggota->name }}">
+                        @endif
+                        <h3 class="text-2xl font-black text-gray-900 mb-2">{{ $anggota->name }}</h3>
+                        <p class="text-maroon-600 font-bold text-lg uppercase tracking-wide">{{ $anggota->jabatan }}</p>
                     </div>
-                </div>
-                <div class="bg-gray-50 p-6 rounded-xl shadow-sm border border-gray-100">
-                    <p class="text-gray-600 italic mb-4">"Pengalaman yang luar biasa. Saya belajar public speaking dan cara menyelesaikan masalah dengan kepala dingin."</p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-maroon-200 rounded-full flex items-center justify-center text-maroon-800 font-bold">AL</div>
-                        <div>
-                            <h4 class="font-bold text-gray-900">Alumni 2</h4>
-                            <p class="text-sm text-gray-500">Sekretaris OSIS 2022-2023</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- EVENT TERKINI -->
-    <div class="py-16 bg-maroon-900" id="event">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-extrabold text-center text-white mb-12">Event OSIS Terkini</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Event Card 1 -->
-                <div class="bg-white rounded-xl overflow-hidden shadow-lg">
-                    <div class="h-48 bg-gray-300 flex items-center justify-center text-gray-500">Foto Event 1</div>
-                    <div class="p-6">
-                        <p class="text-sm text-maroon-600 font-semibold mb-1">12 Agustus 2024</p>
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">LDKS Pengurus Baru</h3>
-                        <p class="text-gray-600 text-sm">Latihan Dasar Kepemimpinan Siswa untuk membekali pengurus baru dengan jiwa kepemimpinan.</p>
-                    </div>
-                </div>
-                <!-- Event Card 2 -->
-                <div class="bg-white rounded-xl overflow-hidden shadow-lg">
-                    <div class="h-48 bg-gray-300 flex items-center justify-center text-gray-500">Foto Event 2</div>
-                    <div class="p-6">
-                        <p class="text-sm text-maroon-600 font-semibold mb-1">17 Agustus 2024</p>
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">Lomba Kemerdekaan</h3>
-                        <p class="text-gray-600 text-sm">Peringatan HUT RI ke-79 dengan berbagai lomba antarkelas yang meriah.</p>
-                    </div>
-                </div>
-                <!-- Event Card 3 -->
-                <div class="bg-white rounded-xl overflow-hidden shadow-lg">
-                    <div class="h-48 bg-gray-300 flex items-center justify-center text-gray-500">Foto Event 3</div>
-                    <div class="p-6">
-                        <p class="text-sm text-maroon-600 font-semibold mb-1">10 November 2024</p>
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">Peringatan Hari Pahlawan</h3>
-                        <p class="text-gray-600 text-sm">Upacara bendera dan teatrikal perjuangan arek-arek Suroboyo.</p>
-                    </div>
-                </div>
+                @empty
+                    <div class="text-gray-500 py-4">Data Pembina belum ditambahkan.</div>
+                @endforelse
             </div>
         </div>
     </div>
