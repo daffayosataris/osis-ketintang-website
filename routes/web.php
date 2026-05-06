@@ -8,13 +8,22 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CmsHeroController;
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\SekbidController;
-use App\Http\Controllers\EventController; // <-- Ini yang menyebabkan error tadi, sekarang sudah saya tambahkan
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/halaman/{slug}', [PageController::class, 'show'])->name('page.show');
+Route::get('/bidang/{id}', [HomeController::class, 'showSekbid'])->name('sekbid.show');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $totalAnggota = \App\Models\Anggota::count() + \App\Models\SekbidMember::count();
+    $totalSekbid = \App\Models\Sekbid::count();
+    $totalEvent = \App\Models\Event::count();
+    $totalPages = \App\Models\Page::count();
+    
+    return view('dashboard', compact('totalAnggota', 'totalSekbid', 'totalEvent', 'totalPages'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -22,17 +31,23 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Manajemen Arsip
-    Route::resource('academic-years', AcademicYearController::class)->except(['show', 'edit', 'update']);
-    Route::resource('document-categories', DocumentCategoryController::class)->except(['show', 'edit', 'update']);
-    Route::resource('documents', DocumentController::class)->except(['show', 'edit', 'update']);
+    // KODE BERUBAH: Membuka kunci rute Arsip agar bisa di-Edit
+    Route::resource('academic-years', AcademicYearController::class)->except(['show']);
+    Route::resource('document-categories', DocumentCategoryController::class)->except(['show']);
+    Route::resource('documents', DocumentController::class)->except(['show']);
 
-    // CMS Website
     Route::get('/cms/hero', [CmsHeroController::class, 'edit'])->name('cms.hero.edit');
     Route::put('/cms/hero', [CmsHeroController::class, 'update'])->name('cms.hero.update');
-    Route::resource('cms-anggota', AnggotaController::class)->except(['show', 'edit', 'update']);
-    Route::resource('cms-sekbid', SekbidController::class)->except(['show', 'edit', 'update']);
-    Route::resource('cms-event', EventController::class)->except(['show', 'edit', 'update']);
+    
+    Route::resource('cms-anggota', AnggotaController::class)->except(['show']);
+    Route::resource('cms-event', EventController::class)->except(['show']);
+    Route::resource('cms-pages', PageController::class)->except(['show']);
+    
+    Route::resource('cms-sekbid', SekbidController::class);
+    Route::post('/cms-sekbid/{id}/member', [SekbidController::class, 'storeMember'])->name('cms-sekbid.storeMember');
+    Route::delete('/cms-sekbid-member/{id}', [SekbidController::class, 'destroyMember'])->name('cms-sekbid.destroyMember');
+
+    Route::resource('users', UserController::class)->except(['show']);
 });
 
 require __DIR__.'/auth.php';

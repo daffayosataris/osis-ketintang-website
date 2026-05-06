@@ -66,25 +66,29 @@
         <svg class="relative z-10 w-full h-16 md:h-24 fill-current text-white mt-12 md:mt-16 drop-shadow-xl" viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,0 C480,100 960,100 1440,0 L1440,100 L0,100 Z"></path></svg>
     </div>
 
-    <!-- SEKBID SECTION -->
+    <!-- SEKBID SECTION (MENGGUNAKAN TAG <a> AGAR BISA DIKLIK) -->
     <div class="py-20 bg-white" id="sekbid">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-16 uppercase tracking-tight">Bidang-Bidang</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
                 @forelse ($sekbids as $sekbid)
-                    <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-2xl flex flex-col h-full transform hover:-translate-y-2 transition duration-300">
+                    <!-- KODE BARU: Membungkus konten Sekbid dengan tag tautan <a> -->
+                    <a href="{{ route('sekbid.show', $sekbid->id) }}" class="bg-gray-50 rounded-2xl overflow-hidden shadow-2xl flex flex-col h-full transform hover:-translate-y-2 transition duration-300 block group relative cursor-pointer">
+                        
                         @if($sekbid->image_path)
                             <div class="w-full h-[450px] xl:h-[500px] bg-gray-200 flex-shrink-0 relative">
-                                <img src="{{ asset('storage/' . $sekbid->image_path) }}" alt="{{ $sekbid->name }}" class="absolute inset-0 w-full h-full object-cover object-center">
+                                <img src="{{ asset('storage/' . $sekbid->image_path) }}" alt="{{ $sekbid->name }}" class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition duration-500">
                             </div>
                         @else
                             <div class="w-full h-[450px] xl:h-[500px] bg-gray-200 flex items-center justify-center text-2xl font-extrabold text-gray-400 border-b">TIDAK ADA POSTER</div>
                         @endif
-                        <div class="p-6 md:p-8 bg-maroon-900 text-left flex-grow flex flex-col justify-start border-t-4 border-maroon-600">
-                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2 uppercase tracking-wide">{{ $sekbid->name }}</h3>
+                        
+                        <div class="p-6 md:p-8 bg-maroon-900 text-left flex-grow flex flex-col justify-start border-t-4 border-maroon-600 relative z-10">
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2 uppercase tracking-wide group-hover:text-blue-300 transition">{{ $sekbid->name }}</h3>
                             <p class="text-maroon-100 text-sm md:text-base font-medium leading-relaxed">{{ $sekbid->description }}</p>
+                            <div class="mt-4 text-maroon-300 text-sm font-bold uppercase flex items-center group-hover:text-white transition">Lihat Detail Anggota <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></div>
                         </div>
-                    </div>
+                    </a>
                 @empty
                     <div class="col-span-full text-center text-gray-500 py-8 text-lg">Belum ada poster Seksi Bidang (Sekbid) yang diunggah oleh Admin.</div>
                 @endforelse
@@ -92,10 +96,11 @@
         </div>
     </div>
 
-    <!-- KONDISI SAKLAR MPK -->
+    <!-- MPK SECTION -->
     @if($hero->is_mpk_visible)
     <div class="py-24 relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900" id="mpk">
         <div class="absolute top-10 right-10 w-96 h-96 bg-blue-500/20 rounded-full blur-[120px] pointer-events-none"></div>
+
         <div class="relative z-10 text-center mb-16 px-4">
             <h2 class="text-5xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-lg">MPK</h2>
             <p class="text-blue-300 mt-4 text-lg md:text-xl font-bold tracking-widest uppercase">Majelis Perwakilan Kelas</p>
@@ -140,7 +145,7 @@
         </div>
     </div>
 
-    <!-- KONDISI SAKLAR PEMBINA OSIS -->
+    <!-- PEMBINA OSIS SECTION -->
     @if($hero->is_pembina_visible)
     <div class="py-20 bg-maroon-50 border-t" id="pembina">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

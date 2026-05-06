@@ -8,25 +8,30 @@ use Illuminate\Support\Facades\Storage;
 
 class AnggotaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Mengambil semua data anggota, diurutkan dari yang terbaru
-        $anggotas = Anggota::latest()->get();
-        return view('cms_anggota.index', compact('anggotas'));
-    }
+        $query = Anggota::query();
 
-    public function create()
-    {
-        return view('cms_anggota.create');
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('jabatan', 'LIKE', "%{$search}%")
+                  ->orWhere('category', 'LIKE', "%{$search}%");
+        }
+
+        // PERBAIKAN: Mengganti withQueryString() dengan appends($request->all())
+        $anggotas = $query->orderBy('name', 'asc')->paginate(10)->appends($request->all());
+
+        return view('cms_anggota.index', compact('anggotas'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'category' => 'required|string', // Inti OSIS, MPK, Pembina
+            'category' => 'required|string',
             'jabatan' => 'required|string|max:255',
-            'image_path' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Maks 2MB
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
         ]);
 
         $imagePath = null;
@@ -41,18 +46,48 @@ class AnggotaController extends Controller
             'image_path' => $imagePath,
         ]);
 
-        return redirect()->route('cms-anggota.index')->with('success', 'Data Pengurus/Anggota berhasil ditambahkan!');
+        return redirect()->back()->with('success', 'Anggota berhasil ditambahkan!');
     }
 
-    public function destroy(Anggota $cms_anggotum) // Parameter default dari Laravel
+    public function edit(string $id)
     {
-        // Hapus foto dari storage jika ada
-        if ($cms_anggotum->image_path && Storage::disk('public')->exists($cms_anggotum->image_path)) {
-            Storage::disk('public')->delete($cms_anggotum->image_path);
-        }
-        
-        $cms_anggotum->delete();
+        $anggota = Anggota::findOrFail($id);
+        return view('cms_anggota.edit', compact('anggota'));
+    }
 
-        return redirect()->route('cms-anggota.index')->with('success', 'Data Anggota berhasil dihapus!');
+    public function update(Request $request, string $id)
+    {
+        $anggota = Anggota::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'category' => 'required|string',
+            'jabatan' => 'required|string|max:255',
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
+        ]);
+
+        if ($request->hasFile('image_path')) {
+            if ($anggota->image_path && Storage::disk('public')->exists($anggota->image_path)) {
+                Storage::disk('public')->delete($anggota->image_path);
+            }
+            $anggota->image_path = $request->file('image_path')->store('cms/anggota', 'public');
+        }
+
+        $anggota->name = $request->name;
+        $anggota->category = $request->category;
+        $anggota->jabatan = $request->jabatan;
+        $anggota->save();
+
+        return redirect()->route('cms-anggota.index')->with('success', 'Data Anggota berhasil diperbarui!');
+    }
+
+    public function destroy(string $id)
+    {
+        $anggota = Anggota::findOrFail($id);
+        if ($anggota->image_path && Storage::disk('public')->exists($anggota->image_path)) {
+            Storage::disk('public')->delete($anggota->image_path);
+        }
+        $anggota->delete();
+        return redirect()->back()->with('success', 'Anggota berhasil dihapus!');
     }
 }

@@ -7,45 +7,43 @@ use Illuminate\Http\Request;
 
 class AcademicYearController extends Controller
 {
-    // Menampilkan halaman daftar tahun kepengurusan
     public function index()
     {
-        $academicYears = AcademicYear::latest()->get();
-        return view('academic_years.index', compact('academicYears'));
+        $years = AcademicYear::orderBy('id', 'desc')->get();
+        return view('archive_years.index', compact('years'));
     }
 
-    // Menampilkan form tambah data
-    public function create()
-    {
-        return view('academic_years.create');
-    }
-
-    // Menyimpan data baru ke database
     public function store(Request $request)
     {
-        // Validasi inputan
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
 
-        // Jika tahun ini di-set aktif, nonaktifkan tahun lain terlebih dahulu
-        if ($request->has('is_active')) {
-            AcademicYear::where('is_active', true)->update(['is_active' => false]);
-        }
-
-        // Simpan ke database
         AcademicYear::create([
             'name' => $request->name,
-            'is_active' => $request->has('is_active'),
         ]);
 
-        return redirect()->route('academic-years.index')->with('success', 'Tahun Kepengurusan berhasil ditambahkan!');
+        return redirect()->back()->with('success', 'Tahun Kepengurusan berhasil ditambahkan!');
     }
 
-    // Menghapus data
-    public function destroy(AcademicYear $academicYear)
+    public function edit(string $id)
     {
-        $academicYear->delete();
-        return redirect()->route('academic-years.index')->with('success', 'Data berhasil dihapus!');
+        $year = AcademicYear::findOrFail($id);
+        return view('archive_years.edit', compact('year'));
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $year = AcademicYear::findOrFail($id);
+        $request->validate(['name' => 'required|string|max:255']);
+        
+        $year->update(['name' => $request->name]);
+        return redirect()->route('academic-years.index')->with('success', 'Tahun Kepengurusan berhasil diperbarui!');
+    }
+
+    public function destroy(string $id)
+    {
+        AcademicYear::findOrFail($id)->delete();
+        return redirect()->back()->with('success', 'Tahun Kepengurusan berhasil dihapus!');
     }
 }

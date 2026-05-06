@@ -8,16 +8,20 @@ use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Menampilkan event dari yang paling baru
-        $events = Event::latest()->get();
-        return view('cms_event.index', compact('events'));
-    }
+        $query = Event::query();
 
-    public function create()
-    {
-        return view('cms_event.create');
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where('title', 'LIKE', "%{$search}%")
+                  ->orWhere('description', 'LIKE', "%{$search}%");
+        }
+
+        // PERBAIKAN: Mengganti withQueryString() dengan appends($request->all())
+        $events = $query->orderBy('event_date', 'desc')->paginate(10)->appends($request->all());
+        
+        return view('cms_event.index', compact('events'));
     }
 
     public function store(Request $request)
@@ -26,10 +30,13 @@ class EventController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'event_date' => 'required|date',
-            'image_path' => 'required|image|mimes:jpeg,png,jpg|max:3072', // Maks 3MB
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
         ]);
 
-        $imagePath = $request->file('image_path')->store('cms/events', 'public');
+        $imagePath = null;
+        if ($request->hasFile('image_path')) {
+            $imagePath = $request->file('image_path')->store('cms/event', 'public');
+        }
 
         Event::create([
             'title' => $request->title,
@@ -38,16 +45,48 @@ class EventController extends Controller
             'image_path' => $imagePath,
         ]);
 
-        return redirect()->route('cms-event.index')->with('success', 'Data Event berhasil ditambahkan!');
+        return redirect()->back()->with('success', 'Event berhasil ditambahkan!');
     }
 
-    public function destroy(Event $cms_event)
+    public function edit(string $id)
     {
-        if ($cms_event->image_path && Storage::disk('public')->exists($cms_event->image_path)) {
-            Storage::disk('public')->delete($cms_event->image_path);
+        $event = Event::findOrFail($id);
+        return view('cms_event.edit', compact('event'));
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $event = Event::findOrFail($id);
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'event_date' => 'required|date',
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
+        ]);
+
+        if ($request->hasFile('image_path')) {
+            if ($event->image_path && Storage::disk('public')->exists($event->image_path)) {
+                Storage::disk('public')->delete($event->image_path);
+            }
+            $event->image_path = $request->file('image_path')->store('cms/event', 'public');
         }
-        
-        $cms_event->delete();
-        return redirect()->route('cms-event.index')->with('success', 'Event berhasil dihapus!');
+
+        $event->title = $request->title;
+        $event->description = $request->description;
+        $event->event_date = $request->event_date;
+        $event->save();
+
+        return redirect()->route('cms-event.index')->with('success', 'Event berhasil diperbarui!');
+    }
+
+    public function destroy(string $id)
+    {
+        $event = Event::findOrFail($id);
+        if ($event->image_path && Storage::disk('public')->exists($event->image_path)) {
+            Storage::disk('public')->delete($event->image_path);
+        }
+        $event->delete();
+        return redirect()->back()->with('success', 'Event berhasil dihapus!');
     }
 }

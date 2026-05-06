@@ -9,13 +9,8 @@ class DocumentCategoryController extends Controller
 {
     public function index()
     {
-        $categories = DocumentCategory::latest()->get();
-        return view('document_categories.index', compact('categories'));
-    }
-
-    public function create()
-    {
-        return view('document_categories.create');
+        $categories = DocumentCategory::orderBy('name', 'asc')->get();
+        return view('archive_categories.index', compact('categories'));
     }
 
     public function store(Request $request)
@@ -28,12 +23,27 @@ class DocumentCategoryController extends Controller
             'name' => $request->name,
         ]);
 
-        return redirect()->route('document-categories.index')->with('success', 'Kategori Dokumen berhasil ditambahkan!');
+        return redirect()->back()->with('success', 'Kategori Dokumen berhasil ditambahkan!');
     }
 
-    public function destroy(DocumentCategory $documentCategory)
+    public function edit(string $id)
     {
-        $documentCategory->delete();
-        return redirect()->route('document-categories.index')->with('success', 'Kategori Dokumen berhasil dihapus!');
+        $category = DocumentCategory::findOrFail($id);
+        return view('archive_categories.edit', compact('category'));
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $category = DocumentCategory::findOrFail($id);
+        $request->validate(['name' => 'required|string|max:255']);
+        
+        $category->update(['name' => $request->name]);
+        return redirect()->route('document-categories.index')->with('success', 'Kategori Dokumen berhasil diperbarui!');
+    }
+
+    public function destroy(string $id)
+    {
+        DocumentCategory::findOrFail($id)->delete();
+        return redirect()->back()->with('success', 'Kategori Dokumen berhasil dihapus!');
     }
 }
