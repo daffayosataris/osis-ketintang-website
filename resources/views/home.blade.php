@@ -34,10 +34,8 @@
         </div>
     </div>
 
-    <!-- INTI OSIS SECTION (Desain Premium Gradient) -->
+    <!-- INTI OSIS SECTION -->
     <div class="pt-24 pb-0 relative overflow-hidden bg-gradient-to-br from-gray-900 via-maroon-900 to-black" id="inti-osis"> 
-        
-        <!-- Ornamen Efek Bias Cahaya (Ambient Glow) -->
         <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-maroon-500/40 rounded-full blur-[100px] pointer-events-none"></div>
         <div class="absolute bottom-[10%] right-[-10%] w-96 h-96 bg-red-500/20 rounded-full blur-[120px] pointer-events-none"></div>
 
@@ -49,15 +47,12 @@
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-wrap justify-center items-end gap-6 md:gap-10">
                 @forelse ($intiOsis as $anggota)
-                    <!-- Box Poster Raksasa -->
                     <div class="w-56 md:w-72 relative group overflow-hidden rounded-t-3xl shadow-[0_20px_50px_rgba(0,0,0,0.7)] border-b-8 border-maroon-500 transform hover:-translate-y-4 transition duration-500 ring-1 ring-white/10">
                         @if($anggota->image_path)
                             <img class="w-full h-[350px] md:h-[450px] object-cover object-top" src="{{ asset('storage/' . $anggota->image_path) }}" alt="{{ $anggota->name }}">
                         @else
                             <img class="w-full h-[350px] md:h-[450px] object-cover object-top" src="https://ui-avatars.com/api/?name={{ urlencode($anggota->name) }}&background=881b1b&color=fff&size=512" alt="{{ $anggota->name }}">
                         @endif
-                        
-                        <!-- Overlay Hitam Transparan untuk Teks -->
                         <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/90 to-transparent pt-20 pb-8 px-4 text-center">
                             <h3 class="text-xl md:text-2xl font-black text-white leading-tight mb-1 drop-shadow-md">{{ $anggota->name }}</h3>
                             <p class="text-sm md:text-base text-maroon-400 font-bold uppercase tracking-widest">{{ $anggota->jabatan }}</p>
@@ -68,44 +63,42 @@
                 @endforelse
             </div>
         </div>
-        <!-- Gelombang Transisi Putih ke Section Berikutnya -->
         <svg class="relative z-10 w-full h-16 md:h-24 fill-current text-white mt-12 md:mt-16 drop-shadow-xl" viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,0 C480,100 960,100 1440,0 L1440,100 L0,100 Z"></path></svg>
     </div>
 
-    <!-- SEKBID SECTION -->
+    <!-- SEKBID SECTION (Tampilan Poster Dinamis) -->
     <div class="py-20 bg-white" id="sekbid">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-16 uppercase tracking-tight">Bidang-Bidang</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Data Statis Sekbid (Karena Jarang Berubah) -->
-                <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-xl border-t-8 border-maroon-700 transform hover:scale-105 transition duration-300">
-                    <div class="h-48 bg-gray-200 flex items-center justify-center text-2xl font-extrabold text-gray-400 border-b">FOTO BIDANG 1</div>
-                    <div class="p-8 bg-maroon-900 text-left h-full">
-                        <h3 class="text-2xl font-bold text-white mb-3 uppercase tracking-wide">Bidang 1</h3>
-                        <p class="text-maroon-200 text-sm md:text-base font-medium leading-relaxed">Keimanan dan Ketaqwaan Terhadap Tuhan Yang Maha Esa.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Looping Data Sekbid dari Database -->
+                @forelse ($sekbids as $sekbid)
+                    <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-2xl border-t-8 border-maroon-700 transform hover:scale-105 transition duration-300 flex flex-col">
+                        <!-- Bagian Poster Gambar -->
+                        @if($sekbid->image_path)
+                            <div class="w-full bg-gray-200 flex-shrink-0">
+                                <!-- Gunakan w-full h-auto agar proporsi poster vertikal Instagram tidak terpotong -->
+                                <img src="{{ asset('storage/' . $sekbid->image_path) }}" alt="{{ $sekbid->name }}" class="w-full h-auto object-cover">
+                            </div>
+                        @else
+                            <div class="h-64 bg-gray-200 flex items-center justify-center text-2xl font-extrabold text-gray-400 border-b">TIDAK ADA POSTER</div>
+                        @endif
+                        
+                        <!-- Bagian Teks Deskripsi -->
+                        <div class="p-8 bg-maroon-900 text-left flex-grow">
+                            <h3 class="text-2xl font-bold text-white mb-3 uppercase tracking-wide">{{ $sekbid->name }}</h3>
+                            <p class="text-maroon-200 text-sm md:text-base font-medium leading-relaxed">{{ $sekbid->description }}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-xl border-t-8 border-maroon-700 transform hover:scale-105 transition duration-300">
-                    <div class="h-48 bg-gray-200 flex items-center justify-center text-2xl font-extrabold text-gray-400 border-b">FOTO BIDANG 2</div>
-                    <div class="p-8 bg-maroon-900 text-left h-full">
-                        <h3 class="text-2xl font-bold text-white mb-3 uppercase tracking-wide">Bidang 2</h3>
-                        <p class="text-maroon-200 text-sm md:text-base font-medium leading-relaxed">Budi Pekerti Luhur dan Akhlak Mulia.</p>
-                    </div>
-                </div>
-                <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-xl border-t-8 border-maroon-700 transform hover:scale-105 transition duration-300">
-                    <div class="h-48 bg-gray-200 flex items-center justify-center text-2xl font-extrabold text-gray-400 border-b">FOTO BIDANG 3</div>
-                    <div class="p-8 bg-maroon-900 text-left h-full">
-                        <h3 class="text-2xl font-bold text-white mb-3 uppercase tracking-wide">Bidang 3</h3>
-                        <p class="text-maroon-200 text-sm md:text-base font-medium leading-relaxed">Kepribadian Unggul dan Wawasan Kebangsaan.</p>
-                    </div>
-                </div>
+                @empty
+                    <div class="col-span-full text-center text-gray-500 py-8 text-lg">Belum ada poster Seksi Bidang (Sekbid) yang diunggah oleh Admin.</div>
+                @endforelse
             </div>
         </div>
     </div>
 
-    <!-- MPK SECTION (Gradient Biru Gelap) -->
+    <!-- MPK SECTION -->
     <div class="py-24 relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900" id="mpk">
-        <!-- Glow Biru -->
         <div class="absolute top-10 right-10 w-96 h-96 bg-blue-500/20 rounded-full blur-[120px] pointer-events-none"></div>
 
         <div class="relative z-10 text-center mb-16 px-4">
@@ -139,9 +132,8 @@
             <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 uppercase tracking-tight">Struktur Kepengurusan</h2>
             <p class="text-maroon-700 font-extrabold text-xl mb-12 tracking-widest uppercase">Periode 2024-2025</p>
             <div class="bg-white rounded-2xl p-4 md:p-8 border border-gray-200 shadow-2xl">
-                <!-- Nantinya Admin akan upload gambar bagan di sini -->
                 <div class="h-[400px] md:h-[600px] bg-gray-100 flex flex-col justify-center items-center rounded-xl border-4 border-dashed border-gray-300">
-                    <svg class="w-24 h-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <svg class="w-24 h-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     <p class="text-gray-400 font-bold text-xl md:text-2xl uppercase tracking-widest">Gambar Struktur Organisasi</p>
                 </div>
             </div>

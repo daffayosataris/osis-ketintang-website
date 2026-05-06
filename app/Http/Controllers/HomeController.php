@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Hero;
 use App\Models\Value;
 use App\Models\Message;
-use App\Models\Anggota; // KODE BARU: Memanggil model Anggota
+use App\Models\Anggota;
+use App\Models\Sekbid; // KODE BARU: Memanggil model Sekbid
 
 class HomeController extends Controller
 {
@@ -17,12 +18,15 @@ class HomeController extends Controller
         $value = Value::first();
         $message = Message::first();
 
-        // KODE BARU: Mengambil data anggota berdasarkan kategori
+        // Mengambil data anggota
         $intiOsis = Anggota::where('category', 'Inti OSIS')->get();
         $mpk = Anggota::where('category', 'MPK')->get();
         $pembina = Anggota::where('category', 'Pembina')->get();
 
+        // KODE BARU: Mengambil data Sekbid (diurutkan berdasarkan nama)
+        $sekbids = Sekbid::orderBy('name', 'asc')->get();
+
         // Mengirimkan semua data ke tampilan beranda
-        return view('home', compact('hero', 'value', 'message', 'intiOsis', 'mpk', 'pembina'));
+        return view('home', compact('hero', 'value', 'message', 'intiOsis', 'mpk', 'pembina', 'sekbids'));
     }
 }

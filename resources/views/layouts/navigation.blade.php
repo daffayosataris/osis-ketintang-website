@@ -27,6 +27,8 @@
                             <x-slot name="content">
                                 <x-dropdown-link :href="route('cms.hero.edit')">{{ __('Hero Section (Beranda)') }}</x-dropdown-link>
                                 <x-dropdown-link :href="route('cms-anggota.index')">{{ __('Anggota (Inti, MPK, Pembina)') }}</x-dropdown-link>
+                                <!-- MENU BARU: SEKBID -->
+                                <x-dropdown-link :href="route('cms-sekbid.index')">{{ __('Seksi Bidang (Sekbid)') }}</x-dropdown-link>
                             </x-slot>
                         </x-dropdown>
                     </div>
@@ -95,6 +97,8 @@
             <div class="px-4 py-2 text-xs font-bold text-gray-500 uppercase">Kelola Konten</div>
             <x-responsive-nav-link :href="route('cms.hero.edit')">{{ __('Hero Section') }}</x-responsive-nav-link>
             <x-responsive-nav-link :href="route('cms-anggota.index')">{{ __('Anggota (Inti, MPK, Pembina)') }}</x-responsive-nav-link>
+            <!-- MENU BARU MOBILE: SEKBID -->
+            <x-responsive-nav-link :href="route('cms-sekbid.index')">{{ __('Seksi Bidang (Sekbid)') }}</x-responsive-nav-link>
             
             <div class="px-4 py-2 text-xs font-bold text-gray-500 uppercase mt-2">Data Arsip</div>
             <x-responsive-nav-link :href="route('academic-years.index')">{{ __('Tahun Kepengurusan') }}</x-responsive-nav-link>
