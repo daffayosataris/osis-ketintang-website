@@ -23,7 +23,7 @@
                     <div class="p-8">
                         <form action="{{ route('cms-anggota.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 <div>
                                     <label class="block text-gray-600 text-xs font-bold mb-2 uppercase tracking-wide">Nama Lengkap</label>
                                     <input type="text" name="name" class="w-full rounded-xl border-gray-200 focus:ring-maroon-500 text-sm" required>
@@ -41,6 +41,10 @@
                                     <input type="text" name="jabatan" class="w-full rounded-xl border-gray-200 focus:ring-maroon-500 text-sm" required>
                                 </div>
                                 <div>
+                                    <label class="block text-gray-600 text-xs font-bold mb-2 uppercase tracking-wide">Kelas (Opsional)</label>
+                                    <input type="text" name="kelas" placeholder="Contoh: XII RPL 1" class="w-full rounded-xl border-gray-200 focus:ring-maroon-500 text-sm">
+                                </div>
+                                <div class="lg:col-span-2">
                                     <label class="block text-gray-600 text-xs font-bold mb-2 uppercase tracking-wide">Foto</label>
                                     <input type="file" name="image_path" class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-maroon-50 file:text-maroon-700" accept="image/*">
                                 </div>
@@ -58,7 +62,7 @@
                     <h3 class="text-lg font-black text-gray-800 uppercase tracking-tight">Daftar Anggota</h3>
                     
                     <form action="{{ route('cms-anggota.index') }}" method="GET" class="relative w-full md:w-80">
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama atau jabatan..." class="w-full pl-11 pr-4 py-2.5 rounded-full border-gray-200 focus:ring-maroon-500 focus:border-maroon-500 text-sm shadow-sm transition">
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, jabatan, atau kelas..." class="w-full pl-11 pr-4 py-2.5 rounded-full border-gray-200 focus:ring-maroon-500 focus:border-maroon-500 text-sm shadow-sm transition">
                         <div class="absolute left-4 top-3 text-gray-400">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </div>
@@ -73,7 +77,7 @@
                         <thead class="bg-gray-50/30">
                             <tr>
                                 <th class="px-8 py-4 text-left text-[10px] font-black text-gray-400 uppercase tracking-widest">Foto</th>
-                                <th class="px-8 py-4 text-left text-[10px] font-black text-gray-400 uppercase tracking-widest">Nama Lengkap</th>
+                                <th class="px-8 py-4 text-left text-[10px] font-black text-gray-400 uppercase tracking-widest">Nama & Kelas</th>
                                 <th class="px-8 py-4 text-left text-[10px] font-black text-gray-400 uppercase tracking-widest">Jabatan</th>
                                 <th class="px-8 py-4 text-center text-[10px] font-black text-gray-400 uppercase tracking-widest">Aksi</th>
                             </tr>
@@ -90,7 +94,12 @@
                                     </td>
                                     <td class="px-8 py-4">
                                         <p class="font-extrabold text-gray-900 text-sm">{{ $anggota->name }}</p>
-                                        <p class="text-[10px] font-bold text-blue-600 uppercase tracking-wider">{{ $anggota->category }}</p>
+                                        <div class="flex items-center gap-2 mt-0.5">
+                                            <span class="text-[10px] font-bold text-blue-600 uppercase tracking-wider">{{ $anggota->category }}</span>
+                                            @if($anggota->kelas)
+                                                <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-[9px] font-bold">{{ $anggota->kelas }}</span>
+                                            @endif
+                                        </div>
                                     </td>
                                     <td class="px-8 py-4 text-sm font-bold text-gray-500">{{ $anggota->jabatan }}</td>
                                     <td class="px-8 py-4 whitespace-nowrap text-center">

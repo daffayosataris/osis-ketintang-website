@@ -15,10 +15,11 @@ class Hero extends Model
         'button_text', 
         'image_path',
         'structure_image_path',
-        'logo_path',            // KODE BARU
+        'logo_path',
         'instagram_link',
         'youtube_link',
         'tiktok_link',
+        'contact_email', 
         'is_mpk_visible',
         'is_pembina_visible'
     ];

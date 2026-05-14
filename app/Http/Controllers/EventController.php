@@ -18,7 +18,6 @@ class EventController extends Controller
                   ->orWhere('description', 'LIKE', "%{$search}%");
         }
 
-        // PERBAIKAN: Mengganti withQueryString() dengan appends($request->all())
         $events = $query->orderBy('event_date', 'desc')->paginate(10)->appends($request->all());
         
         return view('cms_event.index', compact('events'));
@@ -88,5 +87,12 @@ class EventController extends Controller
         }
         $event->delete();
         return redirect()->back()->with('success', 'Event berhasil dihapus!');
+    }
+
+    // KODE BARU: Menampilkan detail event ke publik (Pengunjung Website)
+    public function showPublic(string $id)
+    {
+        $event = Event::findOrFail($id);
+        return view('event_show', compact('event'));
     }
 }

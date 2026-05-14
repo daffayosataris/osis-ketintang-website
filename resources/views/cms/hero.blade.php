@@ -29,7 +29,6 @@
                 @csrf
                 @method('PUT')
 
-                <!-- BAGIAN 1: HERO SECTION -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-8">
                     <div class="p-6 text-gray-900 border-b">
                         <h3 class="text-lg font-bold text-maroon-700 mb-4 uppercase">1. Pengaturan Beranda (Hero Section)</h3>
@@ -61,7 +60,6 @@
                     </div>
                 </div>
 
-                <!-- BAGIAN 2: SAKLAR TAMPILAN SECTION -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-8 border-l-4 border-blue-500">
                     <div class="p-6 text-gray-900 border-b">
                         <h3 class="text-lg font-bold text-blue-700 mb-4 uppercase">2. Visibilitas / Saklar Tampilan Section</h3>
@@ -81,12 +79,10 @@
                     </div>
                 </div>
 
-                <!-- BAGIAN 3: LOGO, STRUKTUR ORGANISASI & FOOTER -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-8">
                     <div class="p-6 text-gray-900 border-b">
                         <h3 class="text-lg font-bold text-maroon-700 mb-4 uppercase">3. Logo, Struktur Organisasi & Link Sosial Media</h3>
                         
-                        <!-- UPLOAD LOGO BARU -->
                         <div class="mb-6 border-b pb-6">
                             <label for="logo_path" class="block text-gray-700 text-sm font-bold mb-2">Logo Website OSIS:</label>
                             @if($hero->logo_path)
@@ -98,7 +94,7 @@
                             <p class="text-xs text-gray-500 mt-1">Upload logo OSIS di sini (Sangat disarankan berformat PNG transparan).</p>
                         </div>
 
-                        <div class="mb-6 pt-2">
+                        <div class="mb-6 pt-2 border-b pb-6">
                             <label for="structure_image_path" class="block text-gray-700 text-sm font-bold mb-2">Gambar Struktur Kepengurusan (Bagan):</label>
                             @if($hero->structure_image_path)
                                 <div class="mb-2">
@@ -109,7 +105,7 @@
                             <p class="text-xs text-gray-500 mt-1">Upload gambar struktur organisasi di sini. (Maksimal 10MB).</p>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 border-t pt-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
                             <div>
                                 <label for="instagram_link" class="block text-gray-700 text-sm font-bold mb-2">Link Instagram:</label>
                                 <input type="url" name="instagram_link" id="instagram_link" value="{{ old('instagram_link', $hero->instagram_link) }}" placeholder="https://instagram.com/..." class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 text-sm">
@@ -121,6 +117,11 @@
                             <div>
                                 <label for="tiktok_link" class="block text-gray-700 text-sm font-bold mb-2">Link TikTok:</label>
                                 <input type="url" name="tiktok_link" id="tiktok_link" value="{{ old('tiktok_link', $hero->tiktok_link) }}" placeholder="https://tiktok.com/..." class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 text-sm">
+                            </div>
+                            
+                            <div class="md:col-span-3 mt-2 pt-4 border-t">
+                                <label for="contact_email" class="block text-gray-700 text-sm font-bold mb-2">Email Kontak/Sekolah (Tampil di Footer):</label>
+                                <input type="email" name="contact_email" id="contact_email" value="{{ old('contact_email', $hero->contact_email) }}" placeholder="Contoh: osis@smkketintang.sch.id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 text-sm">
                             </div>
                         </div>
                     </div>

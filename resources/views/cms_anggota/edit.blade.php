@@ -21,7 +21,7 @@
                                 <input type="text" name="name" value="{{ $anggota->name }}" class="w-full rounded-xl border-gray-200 focus:ring-maroon-500 focus:border-maroon-500 text-sm" required>
                             </div>
                             
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div>
                                     <label class="block text-gray-600 text-xs font-bold mb-2 uppercase tracking-wide">Kategori Organisasi</label>
                                     <select name="category" class="w-full rounded-xl border-gray-200 focus:ring-maroon-500 focus:border-maroon-500 text-sm" required>
@@ -33,6 +33,10 @@
                                 <div>
                                     <label class="block text-gray-600 text-xs font-bold mb-2 uppercase tracking-wide">Jabatan</label>
                                     <input type="text" name="jabatan" value="{{ $anggota->jabatan }}" class="w-full rounded-xl border-gray-200 focus:ring-maroon-500 focus:border-maroon-500 text-sm" required>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-600 text-xs font-bold mb-2 uppercase tracking-wide">Kelas (Opsional)</label>
+                                    <input type="text" name="kelas" value="{{ $anggota->kelas }}" placeholder="Contoh: XII RPL 1" class="w-full rounded-xl border-gray-200 focus:ring-maroon-500 focus:border-maroon-500 text-sm">
                                 </div>
                             </div>
 

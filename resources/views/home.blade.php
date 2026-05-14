@@ -1,7 +1,6 @@
 @extends('layouts.public')
 
 @section('content')
-    <!-- HERO SECTION -->
     <div class="relative bg-gradient-to-b from-maroon-50 to-white overflow-hidden">
         <div class="max-w-7xl mx-auto">
             <div class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32 pt-20">
@@ -34,7 +33,6 @@
         </div>
     </div>
 
-    <!-- INTI OSIS SECTION -->
     <div class="pt-24 pb-0 relative overflow-hidden bg-gradient-to-br from-gray-900 via-maroon-900 to-black" id="inti-osis"> 
         <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-maroon-500/40 rounded-full blur-[100px] pointer-events-none"></div>
         <div class="absolute bottom-[10%] right-[-10%] w-96 h-96 bg-red-500/20 rounded-full blur-[120px] pointer-events-none"></div>
@@ -56,6 +54,9 @@
                         <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/90 to-transparent pt-20 pb-8 px-4 text-center">
                             <h3 class="text-xl md:text-2xl font-black text-white leading-tight mb-1 drop-shadow-md">{{ $anggota->name }}</h3>
                             <p class="text-sm md:text-base text-maroon-400 font-bold uppercase tracking-widest">{{ $anggota->jabatan }}</p>
+                            @if($anggota->kelas)
+                                <p class="text-xs text-gray-300 font-medium mt-1">{{ $anggota->kelas }}</p>
+                            @endif
                         </div>
                     </div>
                 @empty
@@ -66,13 +67,11 @@
         <svg class="relative z-10 w-full h-16 md:h-24 fill-current text-white mt-12 md:mt-16 drop-shadow-xl" viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,0 C480,100 960,100 1440,0 L1440,100 L0,100 Z"></path></svg>
     </div>
 
-    <!-- SEKBID SECTION (MENGGUNAKAN TAG <a> AGAR BISA DIKLIK) -->
     <div class="py-20 bg-white" id="sekbid">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-16 uppercase tracking-tight">Bidang-Bidang</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
                 @forelse ($sekbids as $sekbid)
-                    <!-- KODE BARU: Membungkus konten Sekbid dengan tag tautan <a> -->
                     <a href="{{ route('sekbid.show', $sekbid->id) }}" class="bg-gray-50 rounded-2xl overflow-hidden shadow-2xl flex flex-col h-full transform hover:-translate-y-2 transition duration-300 block group relative cursor-pointer">
                         
                         @if($sekbid->image_path)
@@ -96,7 +95,6 @@
         </div>
     </div>
 
-    <!-- MPK SECTION -->
     @if($hero->is_mpk_visible)
     <div class="py-24 relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900" id="mpk">
         <div class="absolute top-10 right-10 w-96 h-96 bg-blue-500/20 rounded-full blur-[120px] pointer-events-none"></div>
@@ -117,6 +115,9 @@
                         <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/90 to-transparent pt-20 pb-8 px-4 text-center">
                             <h3 class="text-xl md:text-2xl font-black text-white leading-tight mb-1">{{ $anggota->name }}</h3>
                             <p class="text-blue-400 font-bold uppercase tracking-widest">{{ $anggota->jabatan }}</p>
+                            @if($anggota->kelas)
+                                <p class="text-xs text-gray-300 font-medium mt-1">{{ $anggota->kelas }}</p>
+                            @endif
                         </div>
                     </div>
                 @empty
@@ -127,7 +128,6 @@
     </div>
     @endif
 
-    <!-- STRUKTUR KEPENGURUSAN -->
     <div class="py-24 bg-gray-50" id="struktur">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 uppercase tracking-tight">Struktur Kepengurusan</h2>
@@ -145,7 +145,6 @@
         </div>
     </div>
 
-    <!-- PEMBINA OSIS SECTION -->
     @if($hero->is_pembina_visible)
     <div class="py-20 bg-maroon-50 border-t" id="pembina">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -160,6 +159,9 @@
                         @endif
                         <h3 class="text-2xl font-black text-gray-900 mb-2">{{ $anggota->name }}</h3>
                         <p class="text-maroon-600 font-bold text-lg uppercase tracking-wide">{{ $anggota->jabatan }}</p>
+                        @if($anggota->kelas)
+                            <p class="text-sm text-gray-500 font-medium mt-1">{{ $anggota->kelas }}</p>
+                        @endif
                     </div>
                 @empty
                     <div class="text-gray-500 py-4">Data Pembina belum ditambahkan.</div>
@@ -169,22 +171,25 @@
     </div>
     @endif
 
-    <!-- EVENT TERKINI -->
     <div class="py-24 bg-white" id="event">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-4xl font-extrabold text-center text-gray-900 mb-16 uppercase tracking-tight">Event OSIS Terkini</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 @forelse ($events as $event)
-                    <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-lg border border-gray-100 flex flex-col h-full transform hover:-translate-y-2 transition duration-300">
-                        <div class="h-56 bg-gray-200 flex-shrink-0">
-                            <img src="{{ asset('storage/' . $event->image_path) }}" alt="{{ $event->title }}" class="w-full h-full object-cover">
+                    <a href="{{ route('event.show', $event->id) }}" class="bg-gray-50 rounded-2xl overflow-hidden shadow-lg border border-gray-100 flex flex-col h-full transform hover:-translate-y-2 transition duration-300 group cursor-pointer">
+                        <div class="h-56 bg-gray-200 flex-shrink-0 relative overflow-hidden">
+                            <img src="{{ asset('storage/' . $event->image_path) }}" alt="{{ $event->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         </div>
                         <div class="p-8 flex-grow flex flex-col">
                             <p class="text-sm text-maroon-600 font-bold mb-3 uppercase tracking-wider">{{ \Carbon\Carbon::parse($event->event_date)->translatedFormat('d F Y') }}</p>
-                            <h3 class="text-2xl font-bold text-gray-900 mb-3 line-clamp-2">{{ $event->title }}</h3>
-                            <p class="text-gray-600 text-base flex-grow line-clamp-3 leading-relaxed">{{ $event->description }}</p>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-maroon-700 transition">{{ $event->title }}</h3>
+                            <p class="text-gray-600 text-base flex-grow line-clamp-3 leading-relaxed">{{ html_entity_decode(strip_tags($event->description)) }}</p>
+                            <div class="mt-6 text-maroon-700 text-sm font-black uppercase flex items-center group-hover:text-maroon-500 transition">
+                                Baca Detail Event 
+                                <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 @empty
                     <div class="col-span-full text-center text-gray-500 py-12 text-lg">Belum ada event yang dipublikasikan oleh Admin.</div>
                 @endforelse

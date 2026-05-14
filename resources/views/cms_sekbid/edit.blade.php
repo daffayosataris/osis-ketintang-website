@@ -17,7 +17,6 @@
                 </div>
             @endif
 
-            <!-- 1. FORM EDIT INFO SEKBID UTAMA -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-t-4 border-maroon-700">
                 <div class="p-6 text-gray-900">
                     <h3 class="text-lg font-black text-gray-800 uppercase mb-4">1. Edit Data Sekbid</h3>
@@ -45,18 +44,16 @@
                 </div>
             </div>
 
-            <!-- 2. KELOLA ANGGOTA SEKBID -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-t-4 border-blue-700">
                 <div class="p-6 text-gray-900">
                     <h3 class="text-lg font-black text-gray-800 uppercase mb-4">2. Kelola Anggota Sekbid Ini</h3>
                     
-                    <!-- Tabel Daftar Anggota -->
                     <div class="overflow-x-auto mb-8 border rounded-lg">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Foto</th>
-                                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Nama Lengkap</th>
+                                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Nama Lengkap & Kelas</th>
                                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Jabatan</th>
                                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Aksi</th>
                                 </tr>
@@ -71,7 +68,12 @@
                                                 <div class="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-500 shadow border">No Pic</div>
                                             @endif
                                         </td>
-                                        <td class="px-6 py-4 font-bold text-gray-900">{{ $member->name }}</td>
+                                        <td class="px-6 py-4">
+                                            <span class="font-bold text-gray-900">{{ $member->name }}</span>
+                                            @if($member->kelas)
+                                                <br><span class="text-[10px] bg-gray-100 px-2 py-0.5 rounded text-gray-600 font-bold">{{ $member->kelas }}</span>
+                                            @endif
+                                        </td>
                                         <td class="px-6 py-4 text-blue-600 font-semibold text-sm">{{ $member->jabatan }}</td>
                                         <td class="px-6 py-4 text-sm font-medium">
                                             <form action="{{ route('cms-sekbid.destroyMember', $member->id) }}" method="POST" onsubmit="return confirm('Hapus anggota ini?');">
@@ -90,12 +92,11 @@
                         </table>
                     </div>
 
-                    <!-- Form Tambah Anggota -->
                     <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
                         <h4 class="font-bold text-blue-800 mb-4 uppercase text-sm tracking-wide">+ Tambah Anggota Baru</h4>
                         <form action="{{ route('cms-sekbid.storeMember', $sekbid->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-sm font-bold mb-1 text-gray-700">Nama Lengkap:</label>
                                     <input type="text" name="name" class="shadow-sm border-gray-300 rounded w-full py-2 px-3 text-sm focus:ring-blue-500 focus:border-blue-500" required>
@@ -103,6 +104,10 @@
                                 <div>
                                     <label class="block text-sm font-bold mb-1 text-gray-700">Jabatan:</label>
                                     <input type="text" name="jabatan" placeholder="Contoh: Ketua Sekbid 1" class="shadow-sm border-gray-300 rounded w-full py-2 px-3 text-sm focus:ring-blue-500 focus:border-blue-500" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold mb-1 text-gray-700">Kelas (Opsional):</label>
+                                    <input type="text" name="kelas" placeholder="Contoh: XII RPL 1" class="shadow-sm border-gray-300 rounded w-full py-2 px-3 text-sm focus:ring-blue-500 focus:border-blue-500">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-bold mb-1 text-gray-700">Foto (Opsional):</label>

@@ -16,10 +16,10 @@ class AnggotaController extends Controller
             $search = $request->get('search');
             $query->where('name', 'LIKE', "%{$search}%")
                   ->orWhere('jabatan', 'LIKE', "%{$search}%")
-                  ->orWhere('category', 'LIKE', "%{$search}%");
+                  ->orWhere('category', 'LIKE', "%{$search}%")
+                  ->orWhere('kelas', 'LIKE', "%{$search}%"); // Bisa dicari berdasarkan kelas
         }
 
-        // PERBAIKAN: Mengganti withQueryString() dengan appends($request->all())
         $anggotas = $query->orderBy('name', 'asc')->paginate(10)->appends($request->all());
 
         return view('cms_anggota.index', compact('anggotas'));
@@ -31,6 +31,7 @@ class AnggotaController extends Controller
             'name' => 'required|string|max:255',
             'category' => 'required|string',
             'jabatan' => 'required|string|max:255',
+            'kelas' => 'nullable|string|max:255', // KODE BARU
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
         ]);
 
@@ -43,6 +44,7 @@ class AnggotaController extends Controller
             'name' => $request->name,
             'category' => $request->category,
             'jabatan' => $request->jabatan,
+            'kelas' => $request->kelas,           // KODE BARU
             'image_path' => $imagePath,
         ]);
 
@@ -63,6 +65,7 @@ class AnggotaController extends Controller
             'name' => 'required|string|max:255',
             'category' => 'required|string',
             'jabatan' => 'required|string|max:255',
+            'kelas' => 'nullable|string|max:255', // KODE BARU
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
         ]);
 
@@ -76,6 +79,7 @@ class AnggotaController extends Controller
         $anggota->name = $request->name;
         $anggota->category = $request->category;
         $anggota->jabatan = $request->jabatan;
+        $anggota->kelas = $request->kelas;        // KODE BARU
         $anggota->save();
 
         return redirect()->route('cms-anggota.index')->with('success', 'Data Anggota berhasil diperbarui!');

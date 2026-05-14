@@ -13,6 +13,7 @@ class Anggota extends Model
         'name', 
         'category', 
         'jabatan', 
+        'kelas',      
         'image_path'
     ];
 }

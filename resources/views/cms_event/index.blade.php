@@ -1,6 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-extrabold text-2xl text-gray-800 leading-tight tracking-tight">Event OSIS</h2>
+        
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+        <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+        <style>
+            trix-toolbar [data-trix-button-group="file-tools"] { display: none; } /* Menyembunyikan tombol upload gambar dalam teks agar rapi */
+            trix-editor { min-height: 200px; background-color: white; }
+        </style>
     </x-slot>
 
     <div class="py-6">
@@ -23,23 +30,28 @@
                         <form action="{{ route('cms-event.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-gray-600 text-xs font-bold mb-2 uppercase tracking-wide">Judul Event</label>
-                                    <input type="text" name="title" class="w-full rounded-xl border-gray-200 focus:ring-maroon-500 text-sm" required>
-                                    
-                                    <label class="block text-gray-600 text-xs font-bold mt-4 mb-2 uppercase tracking-wide">Tanggal Pelaksanaan</label>
-                                    <input type="date" name="event_date" class="w-full rounded-xl border-gray-200 focus:ring-maroon-500 text-sm" required>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-gray-600 text-xs font-bold mb-2 uppercase tracking-wide">Judul Event</label>
+                                        <input type="text" name="title" class="w-full rounded-xl border-gray-200 focus:ring-maroon-500 text-sm shadow-sm" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-600 text-xs font-bold mb-2 uppercase tracking-wide">Tanggal Pelaksanaan</label>
+                                        <input type="date" name="event_date" class="w-full rounded-xl border-gray-200 focus:ring-maroon-500 text-sm shadow-sm" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-600 text-xs font-bold mb-2 uppercase tracking-wide">Poster Utama Event (Opsional)</label>
+                                        <input type="file" name="image_path" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-maroon-50 file:text-maroon-700 border border-gray-200 rounded-xl px-2 py-1" accept="image/*">
+                                    </div>
                                 </div>
+                                
                                 <div>
-                                    <label class="block text-gray-600 text-xs font-bold mb-2 uppercase tracking-wide">Deskripsi</label>
-                                    <textarea name="description" rows="4" class="w-full rounded-xl border-gray-200 focus:ring-maroon-500 text-sm" required></textarea>
-                                </div>
-                                <div class="md:col-span-2">
-                                    <label class="block text-gray-600 text-xs font-bold mb-2 uppercase tracking-wide">Poster Event (Opsional)</label>
-                                    <input type="file" name="image_path" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-maroon-50 file:text-maroon-700" accept="image/*">
+                                    <label class="block text-gray-600 text-xs font-bold mb-2 uppercase tracking-wide">Detail & Deskripsi Event (Rich Text)</label>
+                                    <input id="event_desc" type="hidden" name="description" required>
+                                    <trix-editor input="event_desc" class="w-full rounded-xl border-gray-200 focus:ring-maroon-500 prose prose-sm max-w-none shadow-sm"></trix-editor>
                                 </div>
                             </div>
-                            <div class="mt-6 flex justify-end">
+                            <div class="mt-8 flex justify-end border-t pt-6 border-gray-100">
                                 <button type="submit" class="bg-maroon-700 hover:bg-maroon-800 text-white font-bold py-2.5 px-8 rounded-full shadow-lg transition text-sm">Publish Sekarang</button>
                             </div>
                         </form>
@@ -52,7 +64,7 @@
                     <h3 class="text-lg font-black text-gray-800 uppercase tracking-tight">Daftar Kegiatan</h3>
                     
                     <form action="{{ route('cms-event.index') }}" method="GET" class="relative w-full md:w-80">
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari judul atau isi event..." class="w-full pl-11 pr-4 py-2.5 rounded-full border-gray-200 focus:ring-maroon-500 focus:border-maroon-500 text-sm shadow-sm transition">
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari judul event..." class="w-full pl-11 pr-4 py-2.5 rounded-full border-gray-200 focus:ring-maroon-500 focus:border-maroon-500 text-sm shadow-sm transition">
                         <div class="absolute left-4 top-3 text-gray-400">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </div>
@@ -64,7 +76,7 @@
                         <thead class="bg-gray-50/30">
                             <tr>
                                 <th class="px-8 py-4 text-left text-[10px] font-black text-gray-400 uppercase tracking-widest">Waktu</th>
-                                <th class="px-8 py-4 text-left text-[10px] font-black text-gray-400 uppercase tracking-widest">Event & Deskripsi</th>
+                                <th class="px-8 py-4 text-left text-[10px] font-black text-gray-400 uppercase tracking-widest">Event & Informasi Singkat</th>
                                 <th class="px-8 py-4 text-center text-[10px] font-black text-gray-400 uppercase tracking-widest">Aksi</th>
                             </tr>
                         </thead>
@@ -74,9 +86,9 @@
                                     <td class="px-8 py-4 whitespace-nowrap">
                                         <p class="text-sm font-black text-maroon-700">{{ \Carbon\Carbon::parse($event->event_date)->translatedFormat('d M Y') }}</p>
                                     </td>
-                                    <td class="px-8 py-4">
+                                    <td class="px-8 py-4 max-w-sm">
                                         <p class="font-extrabold text-gray-900 text-sm mb-0.5">{{ $event->title }}</p>
-                                        <p class="text-xs text-gray-500 line-clamp-1 italic">{{ $event->description }}</p>
+                                        <div class="text-xs text-gray-500 line-clamp-1 italic">{!! strip_tags($event->description) !!}</div>
                                     </td>
                                     <td class="px-8 py-4 whitespace-nowrap text-center">
                                         <div class="flex items-center justify-center gap-2">

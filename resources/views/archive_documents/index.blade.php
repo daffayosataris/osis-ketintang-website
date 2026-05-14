@@ -13,15 +13,24 @@
                 </div>
             @endif
 
-            <!-- Notifikasi Jika Data Master Kosong -->
             @if($years->isEmpty() || $categories->isEmpty())
                 <div class="mb-6 bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-2xl shadow-sm">
                     <p class="font-bold">⚠️ Perhatian: Anda belum menambahkan Tahun Kepengurusan atau Kategori Dokumen.</p>
-                    <p class="text-sm mt-1">Harap tambahkan data tersebut terlebih dahulu di menu sebelah kiri agar Anda bisa mengunggah file arsip.</p>
+                    <p class="text-sm mt-1">Harap tambahkan data tersebut di menu Manajemen File terlebih dahulu.</p>
                 </div>
             @endif
 
-            <!-- Form Upload Arsip -->
+            @if ($errors->any())
+                <div class="mb-6 bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-2xl shadow-sm">
+                    <strong class="font-bold">Gagal Upload! Periksa isian Anda:</strong>
+                    <ul class="mt-2 list-disc list-inside text-sm">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="bg-white rounded-3xl shadow-sm border border-gray-100 mb-8 overflow-hidden {{ ($years->isEmpty() || $categories->isEmpty()) ? 'opacity-50 pointer-events-none' : '' }}">
                 <div class="bg-gray-50/50 border-b border-gray-100 px-8 py-5">
                     <h3 class="text-lg font-black text-gray-800 flex items-center gap-2">
@@ -33,36 +42,31 @@
                     <form action="{{ route('documents.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            
                             <div>
                                 <label class="block text-gray-600 text-xs font-bold mb-2 uppercase tracking-wide">Nama Dokumen</label>
-                                <input type="text" name="title" placeholder="Contoh: Proposal Pensi" class="w-full rounded-xl border-gray-200 focus:ring-blue-500 text-sm" required>
+                                <input type="text" name="title" value="{{ old('title') }}" placeholder="Contoh: Proposal Pensi" class="w-full rounded-xl border-gray-200 focus:ring-blue-500 text-sm" required>
                             </div>
-                            
                             <div>
                                 <label class="block text-gray-600 text-xs font-bold mb-2 uppercase tracking-wide">Tahun Kepengurusan</label>
                                 <select name="academic_year_id" class="w-full rounded-xl border-gray-200 focus:ring-blue-500 text-sm font-bold text-gray-700" required>
                                     @foreach($years as $year)
-                                        <option value="{{ $year->id }}">{{ $year->name }}</option>
+                                        <option value="{{ $year->id }}" {{ old('academic_year_id') == $year->id ? 'selected' : '' }}>{{ $year->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            
                             <div>
                                 <label class="block text-gray-600 text-xs font-bold mb-2 uppercase tracking-wide">Kategori Dokumen</label>
                                 <select name="document_category_id" class="w-full rounded-xl border-gray-200 focus:ring-blue-500 text-sm font-bold text-gray-700" required>
                                     @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}" {{ old('document_category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            
                             <div>
                                 <label class="block text-gray-600 text-xs font-bold mb-2 uppercase tracking-wide">File (PDF/Word/Excel)</label>
-                                <input type="file" name="file_path" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition" required>
+                                <input type="file" name="file" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.png" required>
                                 <p class="text-[10px] text-gray-400 mt-1">*Maksimal 10 MB</p>
                             </div>
-
                         </div>
                         <div class="mt-6 flex justify-end pt-6 border-t border-gray-50">
                             <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-8 rounded-full shadow-lg transition-all text-sm flex items-center gap-2">
@@ -73,7 +77,6 @@
                 </div>
             </div>
 
-            <!-- Tabel Daftar Arsip -->
             <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-100">
@@ -97,6 +100,7 @@
                                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                             {{ $doc->title }}
                                         </p>
+                                        <p class="text-[10px] font-bold text-blue-500 line-clamp-1">{{ $doc->file_name }}</p>
                                     </td>
                                     <td class="px-8 py-4">
                                         <span class="inline-block px-3 py-1 bg-gray-100 text-gray-700 text-xs font-bold rounded-full mb-1">{{ $doc->documentCategory->name ?? '-' }}</span><br>
@@ -126,8 +130,14 @@
                         </tbody>
                     </table>
                 </div>
+                
+                @if($documents->hasPages())
+                <div class="px-8 py-6 bg-gray-50/50 border-t border-gray-100">
+                    {{ $documents->links() }}
+                </div>
+                @endif
+                
             </div>
-
         </div>
     </div>
 </x-app-layout>

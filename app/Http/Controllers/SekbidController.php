@@ -37,14 +37,12 @@ class SekbidController extends Controller
         return redirect()->back()->with('success', 'Sekbid berhasil ditambahkan!');
     }
 
-    // FUNGSI BARU: Menampilkan halaman Kelola/Edit Sekbid
     public function edit(string $id)
     {
         $sekbid = Sekbid::with('members')->findOrFail($id);
         return view('cms_sekbid.edit', compact('sekbid'));
     }
 
-    // FUNGSI BARU: Mengupdate Info Utama Sekbid
     public function update(Request $request, string $id)
     {
         $sekbid = Sekbid::findOrFail($id);
@@ -79,12 +77,13 @@ class SekbidController extends Controller
         return redirect()->route('cms-sekbid.index')->with('success', 'Sekbid berhasil dihapus!');
     }
 
-    // FUNGSI BARU: Menambahkan Anggota ke Sekbid
+    // FUNGSI PERBAIKAN: Menambahkan form 'kelas' saat menyimpan Anggota ke Sekbid
     public function storeMember(Request $request, string $id)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'jabatan' => 'required|string|max:255',
+            'kelas' => 'nullable|string|max:255', // Validasi kelas baru
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
@@ -97,13 +96,13 @@ class SekbidController extends Controller
             'sekbid_id' => $id,
             'name' => $request->name,
             'jabatan' => $request->jabatan,
+            'kelas' => $request->kelas, // Simpan kelas ke database
             'image_path' => $imagePath,
         ]);
 
         return redirect()->back()->with('success', 'Anggota Sekbid berhasil ditambahkan!');
     }
 
-    // FUNGSI BARU: Menghapus Anggota dari Sekbid
     public function destroyMember(string $id)
     {
         $member = SekbidMember::findOrFail($id);

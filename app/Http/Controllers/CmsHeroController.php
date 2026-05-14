@@ -22,10 +22,11 @@ class CmsHeroController extends Controller
             'button_text' => 'required|string|max:255',
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
             'structure_image_path' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240', 
-            'logo_path' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:2048', // KODE BARU
+            'logo_path' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:2048',
             'instagram_link' => 'nullable|url',
             'youtube_link' => 'nullable|url',
             'tiktok_link' => 'nullable|url',
+            'contact_email' => 'nullable|email|max:255', // KODE BARU
         ]);
 
         $hero = Hero::first();
@@ -46,7 +47,7 @@ class CmsHeroController extends Controller
             $hero->structure_image_path = $request->file('structure_image_path')->store('cms/structure', 'public');
         }
 
-        // Update Logo Website (KODE BARU)
+        // Update Logo Website
         if ($request->hasFile('logo_path')) {
             if ($hero->logo_path && Storage::disk('public')->exists($hero->logo_path)) {
                 Storage::disk('public')->delete($hero->logo_path);
@@ -61,6 +62,7 @@ class CmsHeroController extends Controller
         $hero->instagram_link = $request->instagram_link; 
         $hero->youtube_link = $request->youtube_link;     
         $hero->tiktok_link = $request->tiktok_link;
+        $hero->contact_email = $request->contact_email; // KODE BARU
         $hero->is_mpk_visible = $request->has('is_mpk_visible');
         $hero->is_pembina_visible = $request->has('is_pembina_visible');
 

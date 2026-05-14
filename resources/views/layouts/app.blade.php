@@ -6,7 +6,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin - OSIS SMK Ketintang</title>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
-    <!-- AlpineJS & Tailwind -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,13 +20,10 @@
 </head>
 <body class="font-sans antialiased text-gray-900 overflow-hidden flex h-screen" x-data="{ sidebarOpen: false }">
 
-    <!-- OVERLAY MOBILE -->
     <div x-show="sidebarOpen" class="fixed inset-0 z-20 bg-gray-900/50 backdrop-blur-sm lg:hidden" @click="sidebarOpen = false" x-transition></div>
 
-    <!-- SIDEBAR KIRI (Persis seperti referensi Donezo) -->
     <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed lg:static inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-100 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0">
         
-        <!-- Logo Area -->
         <div class="h-24 flex items-center px-8 border-b border-gray-50/50">
             <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
                 <div class="w-8 h-8 bg-maroon-700 rounded-lg flex items-center justify-center text-white font-black text-sm">O</div>
@@ -35,10 +31,8 @@
             </a>
         </div>
 
-        <!-- Menu Links -->
         <div class="flex-1 overflow-y-auto py-6 px-4 space-y-8">
             
-            <!-- SECTION: MENU -->
             <div>
                 <p class="px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Menu Utama</p>
                 <div class="space-y-1">
@@ -50,7 +44,6 @@
                 </div>
             </div>
 
-            <!-- SECTION: KONTEN WEBSITE -->
             <div>
                 <p class="px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Kelola Konten</p>
                 <div class="space-y-1">
@@ -77,7 +70,6 @@
                 </div>
             </div>
 
-            <!-- SECTION: MANAJEMEN ARSIP -->
             <div>
                 <p class="px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Manajemen Arsip</p>
                 <div class="space-y-1">
@@ -96,7 +88,6 @@
                 </div>
             </div>
 
-            <!-- SECTION: GENERAL -->
             <div>
                 <p class="px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Sistem & General</p>
                 <div class="space-y-1">
@@ -109,7 +100,6 @@
 
         </div>
         
-        <!-- Sidebar Footer -->
         <div class="p-4 border-t border-gray-50">
             <div class="bg-gray-900 rounded-2xl p-4 text-center relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full blur-xl transform translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
@@ -122,26 +112,16 @@
 
     </aside>
 
-    <!-- KONTEN KANAN (Header & Main Content) -->
     <div class="flex-1 flex flex-col h-screen overflow-hidden bg-[#f4f7fb]">
         
-        <!-- HEADER ATAS (Search Bar & Profil) -->
         <header class="h-24 bg-white/50 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-6 lg:px-10 z-10">
             
             <div class="flex items-center gap-4 w-full md:w-1/2">
                 <button @click="sidebarOpen = true" class="lg:hidden p-2 text-gray-500 hover:bg-white rounded-xl shadow-sm border border-gray-100">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </button>
-                
-                <!-- Kotak Pencarian Imitasi (Desain seperti Donezo) -->
-                <div class="hidden md:flex items-center bg-white border border-gray-100 rounded-full px-4 py-2.5 w-full max-w-md shadow-sm">
-                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    <input type="text" placeholder="Search tasks..." class="bg-transparent border-none focus:ring-0 text-sm w-full py-0 px-3 text-gray-600 placeholder-gray-400 outline-none">
-                    <div class="bg-gray-100 px-2 py-0.5 rounded text-[10px] font-bold text-gray-400 border border-gray-200">⌘ F</div>
-                </div>
             </div>
 
-            <!-- Bagian Profil Kanan -->
             <div class="flex items-center gap-4">
                 <button class="hidden md:flex w-10 h-10 bg-white rounded-full items-center justify-center text-gray-400 hover:text-maroon-600 shadow-sm border border-gray-100 transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
@@ -150,11 +130,11 @@
                 <div x-data="{ dropdownOpen: false }" class="relative">
                     <button @click="dropdownOpen = !dropdownOpen" class="flex items-center gap-3 p-1.5 pr-4 bg-white border border-gray-100 rounded-full shadow-sm hover:shadow transition">
                         <div class="w-8 h-8 rounded-full bg-maroon-100 border border-maroon-200 flex items-center justify-center text-maroon-700 font-black text-xs">
-                            {{ substr(Auth::user()->name, 0, 1) }}
+                            {{ substr(Auth::user()->name ?? 'A', 0, 1) }}
                         </div>
                         <div class="hidden md:block text-left">
-                            <p class="text-sm font-extrabold text-gray-900 leading-tight">{{ Auth::user()->name }}</p>
-                            <p class="text-[10px] text-gray-500 font-semibold">{{ Auth::user()->email }}</p>
+                            <p class="text-sm font-extrabold text-gray-900 leading-tight">{{ Auth::user()->name ?? 'Admin' }}</p>
+                            <p class="text-[10px] text-gray-500 font-semibold">{{ Auth::user()->email ?? 'admin@osis.com' }}</p>
                         </div>
                         <svg class="hidden md:block w-4 h-4 text-gray-400 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
@@ -172,9 +152,7 @@
 
         </header>
 
-        <!-- MAIN CONTENT AREA -->
         <main class="flex-1 overflow-y-auto p-6 lg:p-10">
-            <!-- Menampilkan Header Halaman dari view masing-masing (jika ada) -->
             @if (isset($header))
                 <div class="mb-8">
                     {{ $header }}

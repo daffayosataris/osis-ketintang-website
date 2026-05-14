@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class SekbidMember extends Model
 {
     use HasFactory;
-    protected $fillable = ['sekbid_id', 'name', 'jabatan', 'image_path'];
+
+    protected $fillable = ['sekbid_id', 'name', 'jabatan', 'kelas', 'image_path'];
 
     public function sekbid()
     {
